@@ -100,24 +100,6 @@ START → supervisor → route_to_agent()
 - Supervisor overrides — even if the LLM picks wrong, code enforces limits
 - Approval respected — reviewer's APPROVED verdict ends the loop
 
-## Interview talking points
 
-**Why multi-agent instead of one agent?**
-A single agent juggling research + writing + reviewing gets confused and
-produces mediocre results. Splitting into specialists — each with one clear
-role and prompt — produces much higher quality. It's separation of concerns
-applied to AI.
-
-**How do agents communicate?**
-They don't talk directly. Everything flows through shared state (research_notes,
-draft, review_feedback) and the supervisor coordinates. This keeps the system
-debuggable — you can inspect the state at any point.
-
-**How do you prevent infinite loops?**
-Three layers: max_steps (total cap), max_revisions (feedback loop cap), and
-supervisor code that overrides the LLM's routing decision when limits are hit.
-
-**What's the hardest part?**
-The supervisor routing logic. The LLM can make bad decisions, so you need
 deterministic guardrails in code that override it. Never trust the LLM alone
 for control flow in production.
